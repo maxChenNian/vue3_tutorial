@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: green;
+        }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // v-for 列表渲染
+    // 事件修饰符：stop prevent capture self once passive
+    // 按键修饰符：enter tab delete esc up down left right
+    // 鼠标修饰符：left right middle
+    // 精确修饰符：exact
+
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: "nihao nihao",
+                counter: 0,
+                counter2: 0,
+                counter5: 0,
+            }
+        },
+
+        methods: {
+            // event 原生的事件对象
+            handleAddBtnClick(event) {
+                console.log(event)
+                console.log(event.target)
+                this.counter += 1;
+            },
+            handleAddBtnClick2(num, event) {
+                console.log(num)
+                console.log(event)
+                console.log(event.target)
+                this.counter2 += num;
+            },
+
+            handleAddBtnClick3() {
+                alert(3);
+            },
+
+            handleAddBtnClick4() {
+                alert(4);
+            },
+
+            handleDivClick() {
+                alert("div click!!!")
+            },
+            handleAddBtnClick5() {
+                this.counter5 += 1;
+            },
+
+            handleKeyDown() {
+                console.log("keydown")
+            },
+            handleKeyDown2(evnet) {
+                console.log(evnet)
+                console.log(evnet.keyCode)
+                if (evnet.keyCode === 13) {
+                    console.log("keydown")
+                }
+            },
+
+            handleMouseClick() {
+
+                console.log("mouseClick");
+
+            },
+
+
+        },
+
+        template:
+                `
+                  <div v-if=true>{{ message }}</div>
+                  <div>
+                  {{ counter }}
+                  <button v-on:click="handleAddBtnClick">button</button>
+                  </div>
+
+                  <div>
+                  {{ counter2 }}
+                  <button v-on:click="handleAddBtnClick2(num=2, $event)">button</button>
+                  </div>
+
+                  <div>
+                  <button v-on:click="handleAddBtnClick3(), handleAddBtnClick4()">button</button>
+                  </div>
+
+                  <div>
+                  <div @click.once="handleDivClick">
+                    {{ counter5 }}
+                    <button v-on:click.stop="handleAddBtnClick5">button</button>
+                  </div>
+                  </div>
+
+                  <div>
+                  <input v-on:keydown="handleKeyDown"/>
+                  </div>
+                  <div>
+                  <input v-on:keydown="handleKeyDown2"/>
+                  </div>
+                  <div>
+                  <input v-on:keydown.enter="handleKeyDown"/>
+                  </div>
+                  <div>
+                  <input v-on:keydown.tab="handleKeyDown"/>
+                  </div>
+                  <div>
+                  <input v-on:keydown.delete="handleKeyDown"/>
+                  </div>
+                  <div>
+                  <div v-on:click.ctrl.exact="handleMouseClick">mouseClick</div>
+                  </div>
+                `
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
