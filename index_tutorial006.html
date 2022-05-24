@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: green;
+        }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // v-for 列表渲染
+
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: "nihao nihao",
+                show: true,
+                listArray: ['fang', 'liyang', 'programmer'],
+                listArray2: ['fang', 'liyang', 'programmer'],
+                listObject: {
+                    firstName: 'liyang',
+                    lastName: 'fang',
+                    job: 'programmer',
+                },
+            }
+        },
+
+        methods: {
+            handleAddBtnClick() {
+                // 1.使用数组的变更函数
+                // push 在末尾增加列表项
+                // this.listArray.push("列表末尾增加一项")
+                // pop 在 末尾 删除列表项
+                // this.listArray.pop();
+                // shift 在 开头 删除列表项
+                // this.listArray.shift();
+                // unshift 在 开头 删除列表项
+                // this.listArray.unshift("在开头增加一项");
+                // sort reverse
+
+                // 2.直接替换数组,或者更新数组的内容
+                // this.listArray = ["women", "zai", 'zheli'];
+                this.listArray = this.listArray.concat(['nihao']);
+                this.listArray[0] = 'shishikan';
+            },
+            handleAddBtnClick2() {
+                this.listArray2.push("列表增加一项")
+            },
+            handleAddBtnClick3() {
+                this.listObject.age = 18
+                this.listObject.sex = male
+            },
+
+        },
+
+        template:
+                `
+                  <div v-if=true>{{ message }}</div>
+                  <div v-for="(item, index) in listArray">{{ index }}--{{ item }}</div>
+                  <button @click="handleAddBtnClick">列表新增</button>
+                  <div v-for="(item, index) in listArray2" v-bind:key="index">{{ index }}--{{ item }}</div>
+                  <button @click="handleAddBtnClick2">列表新增</button>
+
+                  <div
+                      v-for="(value, key, index) in listObject"
+                      v-bind:key="index">
+                  <div v-if="key !== 'lastName'">
+                    {{ index }}--{{ key }}--{{ value }}
+                  </div>
+                  </div>
+                  <button @click="handleAddBtnClick3">对象新增</button>
+
+                  <template
+                      v-for="(value, key, index) in listObject"
+                      v-bind:key="index">
+                  <div v-if="key !== 'lastName'">
+                    {{ index }}--{{ key }}--{{ value }}
+                  </div>
+                  </template>
+
+                  <div v-for="item in 10">{{ item }}</div>
+                `
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

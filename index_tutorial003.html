@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // data & methods & computed & watcher
+    // computed 和 methods 都能实现的一个功能，建议使用computed，因为有缓存
+    // computed 和 watcher 都能实现的功能，建议使用computed，因为更加简洁
+
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: "nihao nihao",
+                count: 2,
+                price: 5,
+                newTotal: 10,
+            }
+        },
+
+        // 侦听器，可以侦听数据的实时变化情况
+        // 3000 单位是 ms ， 3000ms 就是 3s
+        // 数据变量发生变化时候，会执行监听器的函数
+        watch: {
+            price(current, prev) {
+                this.newTotal = current * this.count
+                setTimeout(() => {
+                    console.log('price changed');
+                    console.log(current, prev);
+                }, 3000)
+            },
+            message(current, prev) {
+                setTimeout(() => {
+                    console.log('message changed');
+                    console.log(current, prev);
+                }, 3000)
+            },
+        },
+
+        // computed 当计算属性依赖的内容发生变更时，才会重新执行计算
+        computed: {
+            total() {
+                return this.count * this.price
+            },
+            timeStamp() {
+                return Date.now() + this.price;
+            }
+        },
+
+        // methods 当页面重新渲染的时候，才会重新执行计算
+        methods: {
+            handleClick() {
+                console.log('click', this)
+                console.log('click', this.$data.message)
+                console.log('click', this.message)
+                alert('点击这里');
+            },
+            formatString(string) {
+                return string.toUpperCase()
+            },
+            getTotal() {
+                return this.count * this.price;
+            },
+            getTime() {
+                return Date.now();
+            }
+        },
+        template:
+                `
+                  <div v-on:click="handleClick">{{ message }}</div>
+                  <div v-on:click="handleClick">{{ formatString(message) }}</div>
+                  <div>{{ count * price }}</div>
+                  <div>{{ total }}</div>
+                  <div>{{ getTotal() }}</div>
+                  <div>{{ message }} {{ timeStamp }}</div>
+                  <div>{{ message }} {{ getTime() }}</div>
+                  <div>{{ newTotal }}</div>
+                `
+    });
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

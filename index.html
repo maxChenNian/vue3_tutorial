@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                content: "fang liyang",
+                content2: "Tiger",
+                show: true,
+                list: ['hello', 'world', 'dell', 'fang'],
+                inputValue: ""
+            }
+        },
+        methods: {
+            handleBtnClick() {
+                this.content = this.content.split('').reverse().join('');
+            },
+            handleBtnClick2() {
+                this.show = !this.show;
+            },
+            handleAddItem() {
+                // console.log(this.inputValue);
+                if (this.inputValue.length >= 1) {
+                    this.list.push(this.inputValue);
+                    this.inputValue = "";
+                }
+            }
+        },
+        // mounted() {
+        //     setInterval(() => {
+        //         this.$data.content += 1;
+        //     },1000)
+        //     console.log("123")
+        // },
+        // template: '<div>{{ content }}</div>'
+        template:
+                `
+                  <div>
+                  {{ content }}
+                  <button v-on:click="handleBtnClick">反转</button>
+                  <span v-if="show">{{ content2 }}</span>
+                  <button v-on:click="handleBtnClick2">显示/隐藏</button>
+                  </div>
+                  <div>
+                  <input v-model="inputValue"/>
+                  <button v-on:click="handleAddItem" v-bind:title="inputValue">增加 {{ inputValue }}</button>
+                  <ul>
+                    <li v-for="(item, index) of list">
+                      <span>{{ index }}</span>
+                      <span> -- </span>
+                      <span>{{ item }}</span> test
+                    </li>
+                  </ul>
+                  <ul>
+                    <todo-item
+                        v-for="(item, index) of list"
+                        v-bind:content="item"
+                        v-bind:index2="index"
+                    />
+                  </ul>
+                  </div>
+                `
+    });
+
+    app.component('todo-item', {
+        // data() {
+        //     return {
+        //         item: 'fang liyang lalala!'
+        //     }
+        // },
+        props: ['content', 'index2'],
+        template: '<li>{{index2}} -- {{content}}</li>'
+    });
+
+    app.mount('#root');
+
+</script>
+
+</html>

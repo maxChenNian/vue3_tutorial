@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root">
+    <div v-on:click='handleItemClick'>{{message}}</div>
+</div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    //createApp 表示创建一个Vue应用，存储到app应用中
+    //传入的参数表示这个应用最外层的组件，应该如何展示
+    // 应用是管理DOM节点的
+    // mvvm 设计模式，m -> model 数据，v -> view 视图，vm -> viewModel 视图数据连接层
+
+
+    // 生命周期函数：在某一时刻会自动执行的函数，
+    // 如：
+    // beforeCreate()
+    // mounted() 函数
+
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: 'nihao nihao'
+            }
+        },
+        methods: {
+            handleItemClick() {
+                alert('click')
+            }
+        },
+        // 在实例生成之前会自动执行的函数
+        beforeCreate() {
+            console.log("beforeCreate")
+        },
+        // 在实例生成之后会自动执行的函数
+        created() {
+            console.log("created")
+        },
+
+        // template 在模板已经被编译成函数之后立即自动执行的函数
+        // 在组件内容被渲染到页面之前自动执行的函数
+        beforeMount() {
+            console.log(document.getElementById('root').innerHTML)
+            console.log("beforeMount")
+        },
+        // 在组件内容被渲染到页面之后自动执行的函数
+        mounted() {
+            console.log("mounted")
+            console.log(document.getElementById('root').innerHTML)
+        },
+
+
+        // 当 data 中的数据发生变化时会自动执行的函数
+        beforeUpdate() {
+            console.log(document.getElementById('root').innerHTML)
+            console.log('beforeUpdate')
+        },
+        // 当 data 中的数据发生变化后，并在页面完成更新之后，会自动执行的函数
+        updated() {
+            console.log('updated')
+            console.log(document.getElementById('root').innerHTML)
+        },
+
+        // 当 Vue 实例销毁之前，自动执行的函数
+        beforeUnmount() {
+            console.log(document.getElementById('root').innerHTML)
+            console.log('beforeUnmount')
+        },
+        // 当 Vue 实例销毁后，且此 DOM 完全销毁之后，自动执行的函数
+        unmounted() {
+            console.log('unmounted')
+            console.log(document.getElementById('root').innerHTML)
+        },
+
+        // template: "<div v-on:click='handleItemClick'>{{message}}</div>"
+
+    });
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

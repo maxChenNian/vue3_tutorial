@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // {{ }} 插值表达式
+    // {{ }} 其中写 js 的表达式
+    // v-once 单次渲染
+    // v-if 决定展不展示这个 div
+    // v-on 事件方法的绑定 简写 @
+    // v-bind 属性的绑定 简写 :
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: "nihao nihao",
+                message2: "<strong>nihao nihao</strong>",
+                disable2: false,
+                show: false,
+                name: 'title',
+                event: 'click'
+            }
+        },
+        methods: {
+            handleClick() {
+                // e.preventDefault();
+                alert('点击这里');
+            },
+            handleClick2(e) {
+                e.preventDefault();
+                // alert('点击这里')
+            },
+            handleClick3() {
+                alert('点击这里');
+            }
+        },
+        template:
+                `
+                  <div v-html='message2'></div>
+                  <div v-bind:title="message">wo men zai yi qi</div>
+                  <div>
+                  <input v-bind:disabled="disable2"/>
+                  </div>
+                  <div>{{ 'a' + 'b' }}</div>
+                  <div>{{ Math.max(1, 2) }}</div>
+                  <div v-once>{{ message }}</div>
+                  <div v-if="show">{{ message }} v-if</div>
+                  <div v-on:click="handleClick">{{ message }}</div>
+                  <div @click="handleClick">{{ message }}</div>
+                  <input :disabled="disable2"/>
+                  <div @[event]="handleClick">{{ message }}</div>
+                  <div :[name]="message">wo men zai yi qi</div>
+                  <div>
+                  <form action="https://www.baidu.com" @click="handleClick2">
+                    <button type="submit">提交</button>
+                  </form>
+                  </div>
+                  <div>
+                  <form action="https://www.baidu.com" @click.prevent="handleClick3">
+                    <button type="submit">提交</button>
+                  </form>
+                  </div>
+                `
+    });
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

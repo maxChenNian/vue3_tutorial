@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: green;
+        }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: "nihao nihao",
+                classString: 'red',
+                classObject: {red: true, green: true},
+                classArray: ['red', 'green'],
+                styleString: 'color: yellow;',
+                styleObject: {
+                    color: 'orange',
+                    background: 'yellow',
+                }
+            }
+        },
+
+        template:
+                `
+                  <div v-bind:class="classString">{{ message }}</div>
+                  <div :class="classString">{{ message }}</div>
+                  <div :class="classObject">{{ message }}</div>
+                  <div :class="classArray">{{ message }}</div>
+                  <div class="red">NICI</div>
+                  <div>
+                  <demo :class="classString"/>
+                  </div>
+                  <div style="color: yellow">
+                  ni shi wo de yan
+                  </div>
+                  <div :style="styleString">
+                  ni shi wo de yan
+                  </div>
+                  <div :style="styleObject">
+                  ni shi wo de yan
+                  </div>
+                `
+    });
+
+
+    // 子组件
+    app.component('demo', {
+        template:
+            `
+                <div :class="$attrs.class">single1</div>
+                <div class="green">single2</div>
+            `
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
