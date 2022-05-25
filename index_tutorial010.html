@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+
+    const app = Vue.createApp({
+        components: {},
+
+        data() {
+            return {
+                message: "nihao nihao",
+                num: 123,
+                function0: function () {
+                    return alert("这是函数类型变量")
+                },
+                function1: () => {
+                    alert("This is an arrow function.")
+                },
+                num2: 6666,
+
+            }
+        },
+
+        methods: {
+            handleAddBtnClick3() {
+                alert(3);
+            }
+        },
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+                  <test-001
+                      content0="组件名 test-001 此处是父组件传递过来的数据"
+                      v-bind:content1="num"
+                      v-bind:content2="function1"
+                      v-bind:content3="num2"
+                      v-bind:content5="num2"
+                  />
+
+                `
+    });
+
+    app.component('test-001', {
+        data() {
+            return {
+                message: "我是一个全局组件 test-001 此处是本组件自身的数据",
+
+            }
+        },
+
+        // 数据类型校验 String Number Array Object Function Boolean Symbol (占位符)
+        // required 必填
+        // default 默认值
+        props: {
+            content0: String,
+            content1: Number,
+            content2: Function,
+            content3: {
+                type: Number,
+                required: true,
+            },
+            content4: {
+                type: Number,
+                required: false,
+                default: 8888,
+            },
+
+            content5:{
+                type: Number,
+                // 不阻止程序运行，但是会在控制台提示警告信息
+                validator: function (value) {
+                    return value < 1000;
+                },
+                default: function () {
+                    return 666;
+                },
+            },
+        },
+
+        methods: {
+            handleClick() {
+                this.content2();
+            },
+        },
+
+        template:
+                `
+                  <div>{{ message }}</div>
+                  <div>字符型变量：  {{ content0 }}</div>
+                  <div>{{ typeof content0 }}</div>
+                  <div>数字型变量：  {{ content1 }}</div>
+                  <div>{{ typeof content1 }}</div>
+                  <div v-on:click="this.handleClick">{{ typeof content2 }}</div>
+                  <div>必须填写 数字型变量：  {{ content3 }}</div>
+                  <div>{{ typeof content3 }}</div>
+                  <div>默认填写 数字型变量：  {{ content4 }}</div>
+                  <div>{{ typeof content4 }}</div>
+                  <div>判读输入数据的特征信息 数字型变量：  {{ content5 }}</div>
+                  <div>{{ typeof content5 }}</div>
+                `
+    });
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

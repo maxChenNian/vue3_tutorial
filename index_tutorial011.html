@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // v-bind='params'
+    // v-bind:num="params.num" v-bind:a="params.a" v-bind:b="params.b" v-bind:c="params.c" v-bind:d="params.d"
+    // js 中的参数用 驼峰命名 contentAbc 但是 html 中使用绑定该参数的时候 使用 content-abc
+
+    // 单项数据流
+    // 子组件可以接收父组件的数据，但只是 只读 属性，所以只可读取，在子组件中不能直接对 props 传递过来的参数进行更改
+    // 子组件可以使用父组件传递过来的数据，但是绝对不能修改传递过来的数据
+
+
+    const app = Vue.createApp({
+        components: {},
+
+        data() {
+            return {
+                message: "nihao nihao",
+                params: {
+                    num: 1234,
+                    a: 0,
+                    b: 1,
+                    c: 2,
+                    d: 3,
+                },
+                num888: 1,
+            }
+        },
+
+        methods: {
+            handleAddBtnClick3() {
+                alert(3);
+            }
+        },
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+                  <test-001 v-bind="params"/>
+                  <test-001 v-bind:num="params.num"
+                            v-bind:a="params.a"
+                            v-bind:b="params.b"
+                            v-bind:c="params.c"
+                            v-bind:d="params.d"
+                  />
+
+                  <test-002 v-bind:count="num888"/>
+                  <test-002 v-bind:count="num888"/>
+                  <test-002 v-bind:count="num888"/>
+
+
+                `
+    });
+
+    app.component('test-001', {
+        data() {
+            return {
+                message: "我是一个全局组件 test-001 此处是本组件自身的数据",
+
+            }
+        },
+
+        // 数据类型校验 String Number Array Object Function Boolean Symbol (占位符)
+        // required 必填
+        // default 默认值
+        props: ['num',
+            'a',
+            'b',
+            'c',
+            'd',
+        ],
+
+        methods: {
+            handleClick() {
+                this.content2();
+            },
+        },
+
+        template:
+                `
+                  <div>{{ num }}--{{ a }}--{{ b }}--{{ c }}--{{ d }}</div>
+
+                `
+    });
+
+
+    app.component('test-002', {
+        data() {
+            return {
+                a: 2,
+                myCount: this.count,
+
+            }
+        },
+
+        props: ['count'],
+
+        methods: {
+            handleClick() {
+                this.myCount += 1
+            },
+        },
+
+        template:
+                `
+                  <div>{{ myCount }}
+                  <button v-on:click="handleClick">add 1</button>
+                  </div>
+                `
+    });
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
