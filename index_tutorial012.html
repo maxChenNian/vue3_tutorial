@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // non-prop 属性
+
+    const app = Vue.createApp({
+        components: {},
+
+        data() {
+            return {
+                message: "nihao nihao",
+
+            }
+        },
+
+        methods: {
+            handleAddBtnClick3() {
+                alert(3);
+            }
+        },
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+                  <test-001 msg="父组件向子组件传递参数"/>
+
+                `
+    });
+
+
+    app.component('test-001', {
+
+        // inheritAttrs: false,
+
+        data() {
+            return {
+                subMessage: "子组件需要展示的数据",
+
+            }
+        },
+
+
+        methods: {
+            handleClick() {
+                this.myCount += 1
+            },
+        },
+
+        // 生命周期函数
+        mounted() {
+            console.log(this.$attrs)
+            console.log(this.$attrs.msg)
+        },
+
+        template:
+                `
+                  <div>{{ subMessage }}</div>
+                  <!--绑定所有属性-->
+                  <div v-bind="$attrs">{{ subMessage }}</div>
+                  <div>{{ subMessage }}</div>
+                  <!--绑定其中指定的属性-->
+                  <div :msg="$attrs.msg">{{ subMessage }}</div>
+                  <!--绑定其中指定的属性-->
+                  <div :msg0="$attrs.msg">{{ subMessage }}</div>
+                `
+    });
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
