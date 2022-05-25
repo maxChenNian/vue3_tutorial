@@ -24,10 +24,6 @@
 
 <script>
     // input 框的双向绑定， v-model
-    // input textarea checkbox radio select
-
-    // 修饰符
-    // lazy number trim
 
     const app = Vue.createApp({
         data() {
@@ -37,12 +33,6 @@
                 message3: false,
                 message4: [],
                 message5: "",
-                options2: [
-                    {text: 'A1', value: 'A'},
-                    {text: 'B1', value: 'B'},
-                    {text: 'C1', value: 'C'}
-                ],
-                message6: "bye"
             }
         },
 
@@ -55,7 +45,7 @@
         },
 
         template:
-                `
+            `
                   <div v-if=true>{{ message }}</div>
 
                   <div>
@@ -99,39 +89,7 @@
                   </select>
                   </div>
 
-                  <!--<div>-->
-                  <!--{{ message5 }}-->
-                  <!--<select multiple v-model="message5">-->
-                  <!--  <option disabled value=''>请选择内容</option>-->
-                  <!--  <option v-for="item in options2" v-bind:value="item.value">{{ item.text }}</option>-->
-                  <!--</select>-->
-                  <!--</div>-->
 
-                  <div>
-                  {{ message6 }}
-                  <input type="checkbox" v-model="message6" true-value="hello" false-value="bye"/>
-                  </div>
-
-
-                  <div>
-                  {{ message6 }}
-                  <input v-model="message6"/>
-                  </div>
-
-                  <div>
-                  {{ message6 }}
-                  <input v-model.lazy="message6"/>
-                  </div>
-
-                  <div>
-                  {{ message6 }}
-                  <input v-model.number="message6" type="number"/>
-                  </div>
-
-                  <div>
-                  {{ message6 }}
-                  <input v-model.trim="message6"/>
-                  </div>
                 `
     });
 
