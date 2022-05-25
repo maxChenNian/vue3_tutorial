@@ -23,16 +23,15 @@
 </body>
 
 <script>
-    // input 框的双向绑定， v-model
+    // 组件的定义
+    // 组件具有复用性
+
 
     const app = Vue.createApp({
         data() {
             return {
                 message: "nihao nihao",
-                message2: "a tong mu!",
-                message3: false,
-                message4: [],
-                message5: "",
+
             }
         },
 
@@ -45,51 +44,58 @@
         },
 
         template:
+                `
+                  <div>nihao nihao 根组件
+                  <div>第一个子组件</div>
+                  <div>第二个子组件</div>
+                  </div>
+
+                  <div>nihao nihao 根组件
+                  <myComponent1/>
+                  <myComponent2/>
+                  <counter/>
+                  <counter/>
+                  <counter/>
+                  </div>
+                `
+    });
+
+    app.component('myComponent1', {
+        template:
             `
-                  <div v-if=true>{{ message }}</div>
+            <div>第一个子组件content</div>
+            `
+    });
 
+    app.component('myComponent2', {
+        template:
+            `
+            <div>第二个子组件content</div>
+            `
+    });
+
+    app.component('counter', {
+        data() {
+            return {
+                count: 1,
+
+            }
+        },
+
+        methods: {
+
+            handleAddBtnClick() {
+                this.count += 1;
+
+            }
+        },
+
+        template:
+                `
                   <div>
-                  {{ message }}
-                  <input v-model="message"/>
+                  {{ count }}
+                  <button v-on:click="handleAddBtnClick">add 1</button>
                   </div>
-
-                  <div>
-                  {{ message2 }}
-                  <textarea v-model="message2"/>
-                  </div>
-
-                  <div>
-                  {{ message3 }}
-                  <input type="checkbox" v-model="message3" value="jack"/>
-                  <input type="checkbox" v-model="message3" value="meimei"/>
-                  <input type="checkbox" v-model="message3" value="haha"/>
-                  </div>
-
-                  <div>
-                  {{ message4 }}
-                  jack <input type="checkbox" v-model="message4" value="jack"/>
-                  meimei <input type="checkbox" v-model="message4" value="meimei"/>
-                  haha <input type="checkbox" v-model="message4" value="haha"/>
-                  </div>
-
-                  <div>
-                  {{ message5 }}
-                  jack <input type="radio" v-model="message5" value="jack"/>
-                  meimei <input type="radio" v-model="message5" value="meimei"/>
-                  haha <input type="radio" v-model="message5" value="haha"/>
-                  </div>
-
-                  <div>
-                  {{ message5 }}
-                  <select v-model="message5">
-                    <option disabled value=''>请选择内容</option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                  </select>
-                  </div>
-
-
                 `
     });
 
