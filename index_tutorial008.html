@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: green;
+        }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // input 框的双向绑定， v-model
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: "nihao nihao",
+                message2: "a tong mu!",
+                message3: false,
+                message4: [],
+                message5: "",
+            }
+        },
+
+        methods: {
+
+            handleAddBtnClick3() {
+                alert(3);
+
+            }
+        },
+
+        template:
+                `
+                  <div v-if=true>{{ message }}</div>
+
+                  <div>
+                  {{ message }}
+                  <input v-model="message"/>
+                  </div>
+
+                  <div>
+                  {{ message2 }}
+                  <textarea v-model="message2"/>
+                  </div>
+
+                  <div>
+                  {{ message3 }}
+                  <input type="checkbox" v-model="message3" value="jack"/>
+                  <input type="checkbox" v-model="message3" value="meimei"/>
+                  <input type="checkbox" v-model="message3" value="haha"/>
+                  </div>
+
+                  <div>
+                  {{ message4 }}
+                  jack <input type="checkbox" v-model="message4" value="jack"/>
+                  meimei <input type="checkbox" v-model="message4" value="meimei"/>
+                  haha <input type="checkbox" v-model="message4" value="haha"/>
+                  </div>
+
+                  <div>
+                  {{ message5 }}
+                  jack <input type="radio" v-model="message5" value="jack"/>
+                  meimei <input type="radio" v-model="message5" value="meimei"/>
+                  haha <input type="radio" v-model="message5" value="haha"/>
+                  </div>
+
+                  <div>
+                  {{ message5 }}
+                  <select v-model="message5">
+                    <option disabled value=''>请选择内容</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                  </select>
+                  </div>
+
+
+                `
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
