@@ -25,9 +25,46 @@
 <script>
     // 组件的定义
     // 组件具有复用性
+    // 全局组件，只要定义了，处处可以用，性能不高，即使不用也会占用内存，但是使用起来很简单
+    // 全局组件命名，全部小写，单词之间用 - 区分，counter-parent
+    // 局部组件需要放置在 Vue.createApp 上方，即先将此局部组件初始化后才能使用
+    // 局部组件命名， LocalCounter 首字母大写的驼峰格式，（与js本身的变量名 即首字母小写的驼峰式区别开来）
+    // 局部组件，定义了，要注册后才能使用，性能比较高，但是使用起来比较麻烦
+    // 局部组件使用时候，需要做一个名字和组件之间的映射对象，若不写映射，Vue底层也会自动帮助做映射
 
+    // 局部组件
+    const LocalCounter = {
+        data() {
+            return {
+                count: 1,
+            }
+        },
+        methods: {
+
+            handleAddBtnClick() {
+                this.count += 1;
+
+            }
+        },
+
+        template:
+                `
+                  <div>
+                  {{ count }}
+                  <button v-on:click="handleAddBtnClick">add 1</button>
+                  </div>
+                `
+    };
 
     const app = Vue.createApp({
+        components: {
+            // LocalCounter0: LocalCounter,
+            // 'LocalCounterString': LocalCounter,
+            // LocalCounter,
+            // 使用以下方式注册局部组件
+            'local-counter': LocalCounter,
+        },
+
         data() {
             return {
                 message: "nihao nihao",
@@ -51,29 +88,42 @@
                   </div>
 
                   <div>nihao nihao 根组件
-                  <myComponent1/>
-                  <myComponent2/>
+                  <my-component1/>
+                  <my-component2/>
                   <counter/>
-                  <counter/>
-                  <counter/>
+                  <counter-parent/>
+                  <!--<LocalCounter0/>-->
+                  <!--<LocalCounterString/>-->
+                  <!--<LocalCounter/>-->
+                  <local-counter/>
                   </div>
                 `
     });
 
-    app.component('myComponent1', {
+    // app.component 全局组件
+    app.component('my-component1', {
         template:
             `
             <div>第一个子组件content</div>
             `
     });
 
-    app.component('myComponent2', {
+    // app.component 全局组件
+    app.component('my-component2', {
         template:
             `
             <div>第二个子组件content</div>
             `
     });
 
+
+    // app.component 全局组件
+    app.component('counter-parent', {
+        template: `<counter/>`
+    });
+
+
+    // app.component 全局组件
     app.component('counter', {
         data() {
             return {
