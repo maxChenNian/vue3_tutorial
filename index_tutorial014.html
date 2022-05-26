@@ -14,13 +14,6 @@
 </body>
 
 <script>
-    // 父组件与子组件之间进行通信
-    // 子组件中触发通信的时候 $emit 参数或者函数用驼峰的命名
-    // 父组件中监听子组件的信号 v-on 参数或者函数用 小写字母用 - 分隔
-
-    // 使用v-model将父组件和子组件进行双向绑定 较难
-    // v-model 自定义修饰符 存储到 modelModifiers
-
 
     const app = Vue.createApp({
         components: {},
@@ -28,10 +21,6 @@
         data() {
             return {
                 message: "nihao nihao",
-                count: 1,
-                count1: 1,
-                text: "long xia",
-                firstWord: 'a',
 
             }
         },
@@ -40,44 +29,12 @@
             handleAddOne() {
                 this.count += 1
             },
-            handleAddTwo(param1, param2) {
-                this.count += (param1 + param2)
-            },
-            handleAddMore(outParam) {
-                this.count = outParam
-            },
-            handleAddOne2(count) {
-                this.count1 = count
-            },
+
         },
 
         template:
-            `
+                `
                   <div>{{ message }}根组件</div>
-                  <test-001 v-bind:countSub="count" v-on:add-one="handleAddOne" v-on:add-two="handleAddTwo"
-                            v-on:add-more="handleAddMore"
-                  />
-                  <div>
-                  <input v-model="text"/>
-                  </div>
-                  <div>{{ message }}根组件</div>
-                  <test-002 v-bind:modelValue="count" v-on:add-one="handleAddOne"
-                  />
-                  <div>{{ message }}根组件</div>
-                  <test-002 v-model="count"
-                  />
-                  <div>{{ message }}根组件</div>
-                  <test-003 v-model:modelValue888="count"
-                  />
-
-                  <div>{{ message }}根组件</div>
-                  <test-002 v-model="count" v-bind:subCount1="count1" v-on:change-count-1="handleAddOne2"
-                  />
-
-                  <div>{{ message }}根组件</div>
-                  <test-004 v-model:subCount="count" v-model:subCount1="count1"
-                            v-model.uppercase="firstWord"
-                  />
 
                 `
     });
@@ -86,7 +43,7 @@
     app.component('test-001', {
 
         // 此处声明父组件需要监听的事件
-        emits: ['addOne', 'addTwo', 'addMore'],
+
 
         data() {
             return {
@@ -95,127 +52,14 @@
             }
         },
 
-        props: ['countSub'],
-
-        methods: {
-            handleClick() {
-                this.$emit('addOne');
-            },
-
-            handleClick2() {
-                this.$emit('addTwo', 2, 3);
-            },
-
-            handleClick3() {
-                this.$emit('addMore', this.countSub + 1);
-            },
-
-        },
-
 
         template:
-            `
+                `
                   <div>{{ subMessage }}</div>
-                  <div>{{ countSub }}
-                  <button @click="handleClick">add 1</button>
-                  </div>
-                  <div>{{ countSub }}
-                  <button @click="handleClick2">add 2</button>
-                  </div>
-                  <div>{{ countSub }}
-                  <button @click="handleClick3">add more</button>
-                  </div>
-
 
                 `
     });
 
-
-    app.component('test-002', {
-        // 此处声明父组件需要监听的事件
-        emits: ['addOne', 'update:modelValue', 'changeCount1'],
-
-        props: ['modelValue', 'modelValue888', 'subCount1'],
-
-        methods: {
-            handleClick() {
-                this.$emit('update:modelValue', this.modelValue + 3);
-            },
-        },
-        template:
-            `
-                  <div>{{ modelValue }}----{{ subCount1 }}
-                  <button @click="handleClick">add 1</button>
-                  </div>
-                `
-    });
-
-    app.component('test-003', {
-        // 此处声明父组件需要监听的事件
-        emits: ['addOne', 'update:modelValue888'],
-
-        props: ['modelValue', 'modelValue888'],
-
-        methods: {
-            handleClick() {
-                this.$emit('update:modelValue888', this.modelValue888 + 3);
-            },
-        },
-        template:
-            `
-                  <div>{{ modelValue888 }}
-                  <button @click="handleClick">add 1</button>
-                  </div>
-                `
-
-
-    });
-
-    app.component('test-004', {
-        // 此处声明父组件需要监听的事件
-        emits: ['update:subCount', 'update:subCount1', 'update:modelValue'],
-
-        props: {
-            'subCount': Number,
-            'subCount1': Number,
-
-            'modelValue': String,
-            'modelModifiers': {
-                default: () => ({}),
-            },
-        },
-
-        mounted() {
-            console.log(this.modelModifiers);
-            console.log(this.modelModifiers.uppercase);
-        },
-
-        methods: {
-            handleClick() {
-                this.$emit('update:subCount', this.subCount + 3);
-            },
-            handleClick2() {
-                this.$emit('update:subCount1', this.subCount1 + 5);
-            },
-            handleClick3() {
-                console.log(this.modelValue)
-                let newValue = this.modelValue + 'b';
-                if (this.modelModifiers.uppercase) {
-                    newValue = newValue.toUpperCase()
-                }
-                this.$emit('update:modelValue', newValue);
-            },
-        },
-        template:
-            `
-                  <div>{{ subCount }}----{{ subCount1 }}----{{ modelValue }}
-                  <button @click="handleClick()">add 3</button>
-                  <button @click="handleClick2()">add 5</button>
-                  <button @click="handleClick3()">add word</button>
-                  </div>
-                `
-
-    });
 
     // vm 代表的就是 vue 应用的根组件，数据视图链接层
     const vm = app.mount('#root');
