@@ -18,6 +18,8 @@
     // 子组件中触发通信的时候 $emit 参数或者函数用驼峰的命名
     // 父组件中监听子组件的信号 v-on 参数或者函数用 小写字母用 - 分隔
 
+    // 使用v-model去绑定
+
     const app = Vue.createApp({
         components: {},
 
@@ -25,6 +27,7 @@
             return {
                 message: "nihao nihao",
                 count: 1,
+                text: "long xia",
 
             }
         },
@@ -47,6 +50,19 @@
                   <test-001 v-bind:countSub="count" v-on:add-one="handleAddOne" v-on:add-two="handleAddTwo"
                             v-on:add-more="handleAddMore"
                   />
+                  <div>
+                  <input v-model="text"/>
+                  </div>
+                  <div>{{ message }}根组件</div>
+                  <test-002 v-bind:modelValue="count" v-on:add-one="handleAddOne"
+                  />
+                  <div>{{ message }}根组件</div>
+                  <test-002 v-model="count"
+                  />
+                  <div>{{ message }}根组件</div>
+                  <test-003 v-model:modelValue888="count"
+                  />
+
                 `
     });
 
@@ -97,6 +113,50 @@
 
                 `
     });
+
+
+    app.component('test-002', {
+        // 此处声明父组件需要监听的事件
+        emits: ['addOne','update:modelValue'],
+
+        props: ['modelValue', 'modelValue888'],
+
+        methods: {
+            handleClick() {
+                this.$emit('update:modelValue', this.modelValue + 3);
+            },
+        },
+        template:
+                `
+                  <div>{{ modelValue }}
+                  <button @click="handleClick">add 1</button>
+                  </div>
+                `
+
+
+    });
+
+    app.component('test-003', {
+        // 此处声明父组件需要监听的事件
+        emits: ['addOne','update:modelValue888'],
+
+        props: ['modelValue', 'modelValue888'],
+
+        methods: {
+            handleClick() {
+                this.$emit('update:modelValue888', this.modelValue888 + 3);
+            },
+        },
+        template:
+            `
+                  <div>{{ modelValue888 }}
+                  <button @click="handleClick">add 1</button>
+                  </div>
+                `
+
+
+    });
+
 
     // vm 代表的就是 vue 应用的根组件，数据视图链接层
     const vm = app.mount('#root');
