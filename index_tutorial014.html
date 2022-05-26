@@ -14,6 +14,17 @@
 </body>
 
 <script>
+    // slot 插槽 在父组件中使用子组件时，将子组件的单标签写成双标签，并在双标签中插入变换的内容
+    // 子组件的slot中无法直接绑定事件
+    // 父组件里调用的数据属性，使用的都是父组件里的数据
+    // 子组件里调用的数据属性，使用的都是子组件里的数据
+
+    // slot 中使用的数据的作用域
+
+    // 具名插槽，父组件 用占位符 <template v-slot:header> content </template>
+    // 具名插槽，子组件 用 <slot name="header"></slot>
+
+    // 作用域插槽
 
     const app = Vue.createApp({
         components: {},
@@ -21,6 +32,7 @@
         data() {
             return {
                 message: "nihao nihao",
+                buttonName: "提交222",
 
             }
         },
@@ -35,12 +47,37 @@
         template:
                 `
                   <div>{{ message }}根组件</div>
+                  <form-one>
+                  <div>{{ buttonName }}</div>
+                  </form-one>
+                  <form-one>
+                  <button>{{ buttonName }}</button>
+                  </form-one>
+                  <form-one></form-one>
+
+                  <layout-one>
+                  <template v-slot:header>
+                    <div>header</div>
+                  </template>
+                  <template #footer>
+                    <div>footer</div>
+                  </template>
+                  </layout-one>
+
+                  <list-one v-slot="slotProps">
+                  <span>{{ slotProps.item111 }}</span>
+                  </list-one>
+
+                  <!--解构-->
+                  <list-one v-slot="{item111}}">
+                  <span>{{ item111 }}</span>
+                  </list-one>
 
                 `
     });
 
 
-    app.component('test-001', {
+    app.component('form-one', {
 
         // 此处声明父组件需要监听的事件
 
@@ -52,11 +89,58 @@
             }
         },
 
+        methods: {
+            handleClick() {
+                alert("提交完成")
+            }
+
+        },
+
 
         template:
                 `
                   <div>{{ subMessage }}</div>
+                  <div>
+                  <input/>
+                  <span v-on:click="handleClick">
+                    <slot>default value</slot>
+                  </span>
+                  <!--<slot v-on:click="handleClick"></slot>-->
+                  <!--<button v-on:click="handleClick">提交</button>-->
+                  </div>
+                `
+    });
 
+
+    app.component('layout-one', {
+        data() {
+            return {
+                message: "how are you!"
+            }
+        },
+        template:
+                `
+                  <div>
+                  <slot name="header"></slot>
+                  <div>content</div>
+                  <slot name="footer"></slot>
+                  </div>
+                `
+    });
+
+    app.component('list-one', {
+        data() {
+            return {
+                message: "how are you!",
+                myList: [1, 2, 3, 4, 5, 6]
+            }
+        },
+        template:
+                `
+                  <div>
+                  <slot v-for="item in myList" v-bind:item111="item"></slot>
+                  <!--<div v-for="item in myList">{{item}}</div>-->
+                  </div>
                 `
     });
 
