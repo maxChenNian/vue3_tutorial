@@ -68,13 +68,32 @@
                   <span>{{ slotProps.item111 }}</span>
                   </list-one>
 
-                  <!--解构-->
-                  <list-one v-slot="{item111}}">
+                  <!--作用域插槽，解构-->
+                  <list-one v-slot="{item111}">
                   <span>{{ item111 }}</span>
                   </list-one>
 
                 `
     });
+
+
+    app.component('list-one', {
+        data() {
+            return {
+                message: "how are you!",
+                myList: [1, 2, 3, 4, 5, 6]
+            }
+        },
+        template:
+            `
+                  <div>
+                  <!--通过属性的形式，把数据绑定到某个参数上-->
+                  <slot v-for="item in myList" v-bind:item111="item"></slot>
+                  <!--<div v-for="item in myList">{{item}}</div>-->
+                  </div>
+                `
+    });
+
 
 
     app.component('form-one', {
@@ -128,21 +147,6 @@
                 `
     });
 
-    app.component('list-one', {
-        data() {
-            return {
-                message: "how are you!",
-                myList: [1, 2, 3, 4, 5, 6]
-            }
-        },
-        template:
-                `
-                  <div>
-                  <slot v-for="item in myList" v-bind:item111="item"></slot>
-                  <!--<div v-for="item in myList">{{item}}</div>-->
-                  </div>
-                `
-    });
 
 
     // vm 代表的就是 vue 应用的根组件，数据视图链接层
