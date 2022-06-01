@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // 动态组件
+
+    const app = Vue.createApp({
+        components: {},
+
+        data() {
+            return {
+                message: "nihao nihao",
+                buttonName: "提交222",
+
+            }
+        },
+
+        methods: {
+            handleAddOne() {
+                this.count += 1
+            },
+
+        },
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+
+
+                `
+    });
+
+
+    app.component('layout-one', {
+        data() {
+            return {
+                message: "how are you!"
+            }
+        },
+        template:
+                `
+                  <div>
+                  <slot name="header"></slot>
+                  <div>content</div>
+                  <slot name="footer"></slot>
+                  </div>
+                `
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
