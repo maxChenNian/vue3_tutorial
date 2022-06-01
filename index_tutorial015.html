@@ -14,7 +14,17 @@
 </body>
 
 <script>
-    // 动态组件
+    // v-once 此div标签只能被渲染一次，即便数据发生变化，也不会再被渲染
+    // ref 引用 实际上是获取 DOM 节点用的一个语法,或者组件引用的一个语法
+
+    // provide / inject 跨组件 多级传递数据
+    // provide 提供数据 inject 注册数据
+    //
+
+
+    const AsyncCommonItem = Vue.defineAsyncComponent(() => {
+        return new Promise()
+    })
 
     const app = Vue.createApp({
         components: {},
@@ -23,27 +33,145 @@
             return {
                 message: "nihao nihao",
                 buttonName: "提交222",
+                currentItem: 'common-item',
+
+                count: 1,
+                count002: 'women',
 
             }
         },
+
+        provide: {
+            count888: 2020,
+        },
+
+        // // 一次性，不是绑定的双向感知的
+        // provide() {
+        //     return {
+        //         count888: this.count002,
+        //     }
+        // },
 
         methods: {
             handleAddOne() {
                 this.count += 1
             },
+            handleClick() {
+                if (this.currentItem === 'input-item') {
+                    this.currentItem = 'common-item';
+                } else {
+                    this.currentItem = 'input-item';
+                }
+            },
+            handleClick2() {
+                this.count888 += 200;
+            },
+        },
 
+        // 获取DOM节点
+        mounted() {
+            console.log(this.$refs.common);
+            console.log(this.$refs.count);
+            this.$refs.count.innerHTML = "再见";
+            console.log(this.$refs.common.sayHello());
         },
 
         template:
                 `
                   <div>{{ message }}根组件</div>
+                  <input-item/>
+                  <common-item/>
+
+                  <div>
+                  <input-item v-show="currentItem === 'input-item'"/>
+                  <common-item v-show="currentItem === 'common-item'"/>
+                  </div>
+                  <div>
+                  <button v-on:click="handleClick()">切换</button>
+                  </div>
+
+                  <keep-alive>
+                  <component :is="currentItem"/>
+                  </keep-alive>
+                  <div>
+                  <button v-on:click="handleClick()">切换</button>
+                  </div>
+
+                  <!--异步组件-->
+                  <div>
+                  <async-common-item/>
+                  </div>
+
+                  <!--知识点补充-->
+                  <!--v-once 此div标签只能被渲染一次，即便数据发生变化，也不会再被渲染-->
+                  <div v-once>
+                  {{ count }}
+                  <button v-on:click="handleAddOne">加1</button>
+                  </div>
+
+                  <div>
+                  <div ref="count">
+                    {{ count }}
+                  </div>
+                  </div>
+
+
+                  <div>
+                  <common-item ref="common"></common-item>
+                  </div>
+
+                  <div>
+                  +++++++++++++++++++++++++
+                  </div>
+
+
+                  <child v-bind:count333="count002"/>
+                  <div>
+                  <button v-on:click="handleClick2">点击加200</button>
+                  </div>
+
 
 
                 `
     });
 
 
-    app.component('layout-one', {
+    app.component('child', {
+        props: ['count333'],
+        template:
+                `
+                  <div>我是子组件</div>
+                  <div> {{ count333 }}</div>
+                  <child-child v-bind:count004="count333"/>
+                `
+    })
+
+    app.component('child-child', {
+        props: ['count004'],
+        inject: ['count888'],
+        template:
+                `
+                  <div>我是子子组件</div>
+                  <div>{{ count004 }}</div>
+                  <div>{{ count888 }}</div>
+                `
+    })
+
+    app.component('async-common-item', Vue.defineAsyncComponent(() => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve({
+                    template:
+                        `
+                              <div>this is an async component.</div>
+                            `
+                })
+            }, 4000)
+        })
+    }))
+
+
+    app.component('input-item', {
         data() {
             return {
                 message: "how are you!"
@@ -51,11 +179,26 @@
         },
         template:
                 `
-                  <div>
-                  <slot name="header"></slot>
-                  <div>content</div>
-                  <slot name="footer"></slot>
-                  </div>
+                  <!--<div>{{ message }}</div>-->
+                  <input/>
+                `
+    });
+
+    app.component('common-item', {
+        data() {
+            return {
+                message: "大侠"
+            }
+        },
+        methods: {
+            sayHello() {
+                alert('hello')
+            }
+        },
+        template:
+                `
+                  <div>{{ message }}</div>
+
                 `
     });
 
