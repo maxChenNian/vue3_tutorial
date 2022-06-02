@@ -5,33 +5,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World</title>
-    <script src="https://unpkg.com/vue@next"></script>
     <style>
+        @keyframes shake {
+            0% {
+                transform: translateX(-100px);
+            }
+            50% {
+                transform: translateX(-50px);
+            }
+            100% {
+                transform: translateX(0px);
+            }
+        }
+
         /*.v-leave-from {*/
         /*    opacity: 1;*/
         /*}*/
 
-        /*.v-leave-active {*/
-        /*    transition: opacity 3s ease-in;*/
-        /*}*/
+        .hello-leave-active {
+            transition: opacity 3s ease-out;
+        }
 
-        /*.v-leave-to {*/
-        /*    opacity: 0;*/
-        /*}*/
-
-        .v-enter-from {
+        .hello-leave-to {
             opacity: 0;
         }
 
-        .V-enter-active {
-            transition: opacity 3s ease;
+        .hello-enter-from {
+            opacity: 0;
+            background: red;
         }
 
+        .hello-enter-active {
+            transition: opacity 3s ease-out;
+            background: green;
+            animation: shake 3s;
+        }
 
-        .v-enter-to {
+        .hello-enter-to {
+            background: green;
             opacity: 1;
         }
+
+        .green {
+            background: green;
+        }
     </style>
+    <script src="https://unpkg.com/vue@next"></script>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
 </head>
 
 <body>
@@ -42,6 +65,13 @@
 <script>
     // 单元素 单组件 的入场和出场效果
     // <transition> 编写入场和出场动画
+    // <transition name="hello"> 可以重新命名
+    // <transition> 使用外部动画效果 animate.css
+    // 将css效果关闭，添加js钩子函数，实现css的部分效果
+    // v-bind:css="false"
+    // v-on:before-enter="handleBeforeEnter"
+    // v-on:enter="handleEnterActive"
+    // v-on:after-enter="handleAfterEnter"
 
     const app = Vue.createApp({
         components: {},
@@ -50,24 +80,74 @@
             return {
                 message: "nihao nihao",
                 show: false,
+                animate: {
+                    transition: true,
+                },
+                styleObj: {
+                    background: 'blue',
+                }
             }
         },
 
         methods: {
             handleClick() {
                 this.show = !this.show;
+                this.animate.animation = !this.animate.animation;
             },
+            handleBeforeEnter(el) {
+                el.style.color = 'red';
+            },
+            handleEnterActive(el, done) {
+                const animation = setInterval(() => {
+                    const color = el.style.color;
+                    if (color === 'red') {
+                        el.style.color = 'green';
+                    } else {
+                        el.style.color = 'red';
+                    }
+                }, 1000)
+                setTimeout(()=>{
+                    clearInterval(animation);
+                    done();
+                }, 5000)
+            },
+            handleAfterEnter(){
+              alert("js 动画结束");
+            }
         },
 
         template:
                 `
                   <div>{{ message }}根组件</div>
                   <div>
-                  <transition>
-                    <div v-if="show">今天的天气不错</div>
+                  <transition name="hello" type="transition">
+                    <div v-if="show">{{ message }}</div>
                   </transition>
-                  <button v-on:click="handleClick">切换是否显示</button>
                   </div>
+
+                  <div>
+                  <transition enter-active-class="animate__animated animate__bounce"
+                              leave-active-class="animate__animated animate__bounce"
+                  >
+                    <div v-if="show">这里使用外部动画模板</div>
+                  </transition>
+                  </div>
+
+                  <div>
+                  <transition v-bind:css="false"
+                              v-on:before-enter="handleBeforeEnter"
+                              v-on:enter="handleEnterActive"
+                              v-on:after-enter="handleAfterEnter"
+                              v-on:before-leave=""
+                              v-on:leave=""
+                              v-bind:leave-after=""
+                  >
+                    <div v-if="show">{{ message }}</div>
+                  </transition>
+                  </div>
+
+                  <button v-on:click="handleClick">切换是否显示</button>
+
 
                 `
     });
