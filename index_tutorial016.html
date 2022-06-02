@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+
+        @keyframes leftToRight {
+            0% {
+                transform: translateX(-100px);
+            }
+            50% {
+                transform: translateX(-50px);
+            }
+            100% {
+                transform: translateX(50px);
+            }
+            0% {
+                transform: translateX(-50px);
+            }
+
+        }
+
+        .animation {
+            animation: leftToRight 4s;
+        }
+
+        .transition {
+            transition: 3s background-color ease;
+        }
+
+        .blue {
+            background: blue;
+        }
+
+        .green {
+            background: green;
+        }
+
+        .transition2 {
+            transition: 3s background-color ease;
+        }
+
+
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // 过渡 动画
+    const app = Vue.createApp({
+        components: {},
+
+        data() {
+            return {
+                message: "nihao nihao",
+                animate: {
+                    transition: true,
+                    blue: true,
+                    green: false,
+                    animation: true
+                },
+                styleObj: {
+                    background: 'blue',
+                }
+            }
+        },
+
+        methods: {
+            handleClick() {
+                this.animate.animation = !this.animate.animation;
+                this.animate.blue = !this.animate.blue;
+                this.animate.green = !this.animate.green
+            },
+            handleClick2(){
+              if (this.styleObj.background === 'blue'){
+                  this.styleObj.background = 'yellow';
+              }else{
+                  this.styleObj.background = 'blue';
+              }
+            },
+
+        },
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+                  <div>
+                  <div v-bind:class="animate">动画效果</div>
+                  <div class="animation">动画效果</div>
+                  <button v-on:click="handleClick">切换效果</button>
+                  </div>
+
+                  <div>
+                  <div class="transition2" v-bind:style="styleObj">第二种方式</div>
+                  <button v-on:click="handleClick2">第二种方式切换</button>
+                  </div>
+                `
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
