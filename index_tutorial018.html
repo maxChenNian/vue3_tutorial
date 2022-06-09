@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+        /* 入场动画 */
+        .v-enter-from {
+            opacity: 0;
+        }
+
+        .v-enter-active {
+            transition: opacity 1s ease-in;
+        }
+
+        .v-enter-to {
+            opacity: 1;
+        }
+
+        /* 出场动画 */
+
+        .v-leave_from {
+            opacity: 1;
+        }
+
+        .v-leave-active {
+            transition: opacity 1s ease-in;
+        }
+
+        .v-leave-to {
+            opacity: 0;
+        }
+
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // <transition>
+    // 多个单元素之间进行切换
+    // 多个但组件自建的切换
+
+    const ComponentA = {
+        data() {
+            return {}
+        },
+        template:
+                `
+                  <div>我是局部组件A</div>
+                `
+    }
+
+    const ComponentB = {
+        data() {
+            return {}
+        },
+        template:
+                `
+                  <div>我是局部组件B</div>
+                `
+    }
+
+
+    const app = Vue.createApp({
+        components: {
+            'component-a': ComponentA,
+            'component-b': ComponentB,
+        },
+
+        data() {
+            return {
+                message: "nihao nihao",
+                show: true,
+                componentTag: 'component-a',
+            }
+        },
+
+        methods: {
+            handleClick() {
+                this.show = !this.show;
+            },
+            handleClick2() {
+                if (this.componentTag === 'component-a') {
+                    this.componentTag = 'component-b'
+                } else {
+                    this.componentTag = 'component-a'
+                }
+            },
+
+        },
+
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+                  <div>
+                  <transition mode="out-in" appear>
+                    <div v-if="show">hello world</div>
+                    <div v-else="show">bye world</div>
+                  </transition>
+                  </div>
+                  <button v-on:click="handleClick">切换</button>
+
+                  <div>
+                  <transition mode="out-in" appear>
+                    <component-a v-if="show">hello world</component-a>
+                    <component-b v-else="show">bye world</component-b>
+                  </transition>
+                  </div>
+                  <button v-on:click="handleClick">切换</button>
+
+                  <!--用动态组件的形式去写-->
+                  <div>
+                  <transition mode="out-in" appear>
+                    <component :is="componentTag"/>
+                  </transition>
+                  </div>
+                  <button v-on:click="handleClick2">切换</button>
+
+                `
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

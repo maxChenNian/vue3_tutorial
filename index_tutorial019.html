@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+        .list-item {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .v-enter-from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+
+        .v-enter-active {
+            transition: all 2s ease-in;
+        }
+
+        .v-enter-to {
+            opacity: 1;
+            transform: translateY(20px);
+        }
+
+        .v-move {
+            transition: all .5s ease-in;
+        }
+
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // 列表动画的实现
+
+    // 状态动画
+
+
+    const app = Vue.createApp({
+        components: {},
+
+        data() {
+            return {
+                message: "nihao nihao",
+                show: true,
+                testList: [1, 2, 3, 4, 5, 6],
+                testNum: 110,
+                animateNum: 100,
+            }
+        },
+
+        methods: {
+            handleClick() {
+                this.testList.unshift(this.testList.length + 1);
+            },
+            handleClick2() {
+                // this.testNum = 150;
+                if (this.animateNum < this.testNum) {
+                    const animation = setInterval(() => {
+                        this.animateNum += 1;
+                        if (this.animateNum === this.testNum) {
+                            clearInterval(animation);
+                        }
+                    }, 100)
+                }
+            },
+        },
+
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+
+                  <div>
+                  <transition-group>
+                    <span class="list-item" v-for="item in testList" v-bind:key="item">{{ item }}</span>
+                  </transition-group>
+                  <button v-on:click="handleClick">开启列表动画</button>
+
+                  </div>
+
+                  <div>
+                  <transition>
+                    <div>{{ animateNum }}</div>
+                  </transition>
+                  <button v-on:click="handleClick2()">开启状态动画</button>
+                  </div>
+
+                `
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
