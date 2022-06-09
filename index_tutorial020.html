@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // mixin 混入的概念
+    // 当组件中有 同名 数据的时候，会使用组件中的数据
+    // 但是 当组件没有 同名 数据的时候，会使用mixin中的数据
+    // 组件中 data 优先级 高于 mixin 中的data
+
+    // 生命周期函数先执行 mixin 中的函数，再执行 组件中的 生命周期函数
+    // 组件中 方法 优先级 高于 mixin中的方法
+
+    // 局部mixin 和 局部组件 很相似
+    // 全局mixin 和 全局组件 很相似，但是一般不用全局的 mixin
+
+    // 自定义的属性，组件中的属性 优先级高于 mixin 属性的优先级
+    // vue3 中已经淘汰 mixin
+
+
+    const myMixin = {
+        data() {
+            return {
+                number: 10,
+                count: 200,
+            };
+        },
+
+        created() {
+            console.log('this is mixin created')
+        },
+
+        methods: {
+            handleClick() {
+                console.log("this is mixin hanldeClick")
+            }
+        },
+
+    };
+
+
+    const app = Vue.createApp({
+        components: {},
+
+        data() {
+            return {
+                message: "nihao nihao",
+                number: 2,
+
+            }
+        },
+
+        mixins: [myMixin],
+
+        methods: {
+            handleClick() {
+                console.log("我是一个handleClick")
+            },
+        },
+
+        created() {
+            console.log('this is app created')
+        },
+
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+
+                  <div>
+                  <div>{{ number }}</div>
+                  <button v-on:click="handleClick">oo</button>
+                  </div>
+
+                  <child></child>
+                `
+    });
+
+    app.component('child', {
+        mixins: [myMixin],
+        template:
+                `
+                  <div>我是全局组件调用 局部 mixin 数据{{ count }}</div>
+                  <div>我是全局组件调用 全局 mixin 数据{{ countTest }}</div>
+                `
+    })
+
+
+    // 一般不使用全局的 mixin
+    app.mixin({
+        data() {
+            return {
+                countTest: 8888,
+            }
+        }
+    })
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
