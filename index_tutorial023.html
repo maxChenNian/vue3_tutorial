@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+<div id="root2"><h1>mmmm root2</h1></div>
+</body>
+
+<script>
+    // render function
+    // template -> render -> h function -> 虚拟DOM（JS对象） -> 真实DOM -> 展示到页面上
+
+    const app = Vue.createApp({
+        components: {},
+
+        // directives: directives,
+
+        data() {
+            return {
+                message: "nihao nihao",
+                top: 100,
+                show: false,
+
+            }
+        },
+
+
+        methods: {
+            handleClick() {
+                console.log("我是一个handleClick")
+
+
+            },
+        },
+
+        mounted() {
+
+        },
+
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+
+                  <my-title v-bind:level="2">
+                  使用render
+                  </my-title>
+
+                `
+    });
+
+
+    // 全局组件d
+    app.component('my-title', {
+        data() {
+            return {};
+
+        },
+        props: ['level'],
+
+        render() {
+            const {h} = Vue;
+            // 虚拟的DOM
+            return h('h' + this.level, {}, this.$slots.default())
+        }
+
+
+        // template:
+        //         `
+        //           <!--<div>-->
+        //           <!--我是一个组件-->
+        //           <!--</div>-->
+        //           <h1 v-if="level === 1">
+        //           <slot/>
+        //           </h1>
+        //           <h2 v-if="level === 2">
+        //           <slot/>
+        //           </h2>
+        //         `
+
+
+    })
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

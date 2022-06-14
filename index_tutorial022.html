@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+        .area {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 300px;
+            background: green;
+        }
+
+        .mask {
+            color: cornsilk;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top:50%;
+            bottom:0;
+            background: aqua;
+            opacity: 0.5;
+            font-size: 50px;
+        }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // teleport 传送门功能
+
+    const app = Vue.createApp({
+        components: {},
+
+        // directives: directives,
+
+        data() {
+            return {
+                message: "nihao nihao",
+                top: 100,
+                show: false,
+
+            }
+        },
+
+
+        methods: {
+            handleClick() {
+                console.log("我是一个handleClick")
+                this.show = !this.show
+
+            },
+        },
+
+        mounted() {
+
+        },
+
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+
+                  <div class="area">
+                  <button v-on:click="handleClick">我是按钮</button>
+                  <teleport to="body">
+                    <div class="mask" v-show="show">
+                      你是我的眼 {{ message }}
+                    </div>
+                  </teleport>
+
+                  </div>
+
+
+                `
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

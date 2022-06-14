@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+    .header { position: absolute}
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // 自定义指令 directive
+    // 封装自定义指令
+
+    // const directives = {
+    //     focus: {
+    //         mounted(el) {
+    //             el.focus();
+    //         }
+    //     }
+    // };
+
+
+    const app = Vue.createApp({
+        components: {},
+
+        // directives: directives,
+
+        data() {
+            return {
+                message: "nihao nihao",
+                top: 100
+
+            }
+        },
+
+
+        methods: {
+            handleClick() {
+                console.log("我是一个handleClick")
+            },
+        },
+
+        mounted() {
+
+        },
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+                  <!--<div>-->
+                  <!--<input v-focus/>-->
+                  <!--</div>-->
+
+                  <div>
+                  <div v-pos="top" class="header">
+                    <input/>
+                  </div>
+                  </div>
+
+                `
+    });
+
+    // // 全局的自定义指令
+    // app.directive('focus', {
+    //     beforeMount(el) {
+    //         console.log("beforeMount")
+    //     },
+    //
+    //     mounted(el) {
+    //         el.focus();
+    //         console.log("mounted")
+    //     },
+    // });
+
+    // 全局的自定义指令
+    app.directive('pos', {
+        mounted(el, binding) {
+            el.style.top = binding.value + 'px'
+            console.log("mounted this is mounted pos directive")
+            console.log(binding.value + 'px')
+        },
+        updated(el, binding) {
+            el.style.top = binding.value + 'px'
+            console.log("updated this is mounted pos directive")
+            console.log(binding.value + 'px')
+        }
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
