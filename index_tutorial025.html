@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // plugin 插件， 将通用性的功能封装起来
+    // 额外的参数放置到options
+    // 插件对数据进行校验
+
+
+    const app = Vue.createApp({
+        components: {},
+
+        // directives: directives,
+
+        data() {
+            return {
+                message: "nihao nihao",
+                top: 100,
+                show: false,
+                name2: "Max",
+                age2: "2000",
+                name3: 'Fang Liyang Ha',
+                age3: 55,
+
+            }
+        },
+
+
+        methods: {
+            handleClick() {
+                console.log("我是一个handleClick")
+
+
+            },
+        },
+
+        mounted() {
+
+        },
+
+        rules: {
+            age3: {
+                validate: age3 => age3 < 33,
+                message2: "soo... old"
+            }
+
+        },
+
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+                  <div>name:{{ name3 }},age:{{ age3 }}</div>
+                `
+    });
+
+    const validatorPlugin = (app, options) => {
+        app.mixin({
+            created() {
+                for (let key in this.$options.rules) {
+                    console.log(key)
+                    const item = this.$options.rules[key];
+                    console.log(item)
+                    console.log(item.message2)
+                    const result = item.validate(this.$data.age3);
+                    console.log(result);
+                    this.$watch(key, (value2) => {
+                        // console.log(value2);
+                        // console.log(item.message2);
+                        const result = item.validate(value2);
+                        console.log(result);
+                        if (!result) console.log(item.message2);
+                    });
+                }
+            }
+        });
+    }
+
+    app.use(validatorPlugin);
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
