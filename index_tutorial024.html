@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // plugin 插件， 将通用性的功能封装起来
+    // 额外的参数放置到options
+
+    const myPlugin = {
+
+        install(app, options) {
+            app.provide('name', 'Guo Yuhui');
+            app.directive('focus', {
+                mounted(el) {
+                    el.focus();
+                }
+            });
+            app.mixin({
+                mounted() {
+                    console.log('mixin')
+                }
+            });
+            console.log(app);
+            console.log(options);
+        }
+    };
+
+    const app = Vue.createApp({
+        components: {},
+
+        // directives: directives,
+
+        data() {
+            return {
+                message: "nihao nihao",
+                top: 100,
+                show: false,
+                name2: "Max",
+                age2: "2000"
+
+            }
+        },
+
+
+        methods: {
+            handleClick() {
+                console.log("我是一个handleClick")
+
+
+            },
+        },
+
+        mounted() {
+
+        },
+
+        rules: {
+            age: {
+                validate: age2 => age2 => 25,
+                message: "soo... old"
+            }
+
+        },
+
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+
+                  <my-title/>
+
+                  <div>name2:{{ name2 }}, age2: {{ age2 }}</div>
+
+                `
+    });
+
+    // 全局组件d
+    app.component('my-title', {
+        data() {
+            return {};
+
+        },
+        inject: ['name'],
+        template:
+                `
+                  <div>
+                  {{ name }}
+                  <input v-focus/>
+                  </div>
+                `
+    });
+
+    app.use(myPlugin, {name: 'Fang Liyang'})
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
