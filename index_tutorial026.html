@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // created 实例被完全初始化之前被执行
+    // composition API setup()
+    // composition API ref() reactive()
+
+
+    const app = Vue.createApp({
+        components: {},
+
+
+        data() {
+            return {
+                message: "nihao nihao",
+                name: "Fang",
+                age: 255,
+
+
+            }
+        },
+
+
+        methods: {
+            handleClick() {
+                console.log("我是一个handleClick")
+            },
+
+            test() {
+                console.log("我是test函数");
+                console.log(this.$options);
+                console.log(this.$options.setup());
+            },
+
+
+        },
+
+        mounted() {
+            this.test();
+        },
+
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+
+                  <div v-on:click="handleClick2">{{ work }} composition API</div>
+                `,
+
+        // created 实例被完全初始化之前被执行
+        // composition API
+        setup(props, context) {
+            return {
+                work: "programmer",
+                handleClick2: () => {
+                    console.log("我是一个 composition API")
+                },
+            };
+        },
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

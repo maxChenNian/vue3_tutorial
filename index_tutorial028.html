@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // toRef
+
+    const app = Vue.createApp({
+        components: {},
+
+
+        data() {
+            return {
+                message: "nihao nihao",
+                name: "Fang",
+                age: 255,
+
+
+            }
+        },
+
+
+        methods: {
+            handleClick2() {
+                console.log("我是一个handleClick")
+            },
+
+            test() {
+                console.log("我是test函数");
+                console.log(this.$options);
+                console.log(this.$options.setup());
+            },
+
+
+        },
+
+        mounted() {
+
+        },
+
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+                  <div>{{ name }}</div>
+
+                  <child app="app">parent</child>
+
+                  <child @change="handleClick2">parent2</child>
+
+                `,
+
+        // created 实例被完全初始化之前被执行
+        // composition API
+        setup(props, context) {
+            const {reactive, toRefs} = Vue
+            const data = reactive({name: "dell"})
+            const {name} = toRefs(data)
+
+            setTimeout(() => {
+                name.value = 'lee'
+            }, 2000)
+
+            return {name}
+
+
+        },
+    });
+
+
+    app.component('child', {
+        data() {
+            return {};
+        },
+
+        template:
+                `
+                  <div v-on:click="handleClick">child</div>
+                `,
+        setup(props, context) {
+            const {h} = Vue
+            const {attrs, slots, emit} = context;
+            console.log(attrs) // none-Props 属性
+            console.log(slots)
+            console.log(slots.default())
+            console.log(emit)
+
+            function handleClick() {
+                emit('change')
+            }
+
+            return {handleClick};
+        }
+
+
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
