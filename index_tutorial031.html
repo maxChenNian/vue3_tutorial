@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<div id="root1"><h1>wo men</h1></div>
+</body>
+
+<script>
+    // composition API
+    // setup 中 watch 侦听器
+
+
+    const app = Vue.createApp({
+
+
+        components: {},
+
+
+        data() {
+            return {
+                message: "nihao nihao",
+                age: 255,
+
+
+            }
+        },
+
+
+        methods: {
+            handleClick2() {
+                console.log("我是一个handleClick")
+            },
+
+            test() {
+                console.log("我是test函数");
+                console.log(this.$options);
+                console.log(this.$options.setup());
+            },
+
+
+        },
+
+        mounted() {
+
+        },
+
+        //composition API
+
+        setup() {
+            const {ref, reactive, watch} = Vue
+            const name = ref("dell")
+            const nameObj = reactive({name2: "fang"})
+
+            // 具备一定的惰性，lazy
+            // 参数可以拿到原始值和当前值
+            watch(name, (currentValue, prevValue) => {
+                console.log(currentValue, prevValue);
+            })
+
+            watch(nameObj, (currentValue, prevValue) => {
+                console.log(currentValue, prevValue);
+                console.log("第一")
+                console.log(currentValue.name2, prevValue.name2);
+            })
+
+            // watch(() => nameObj.name2, (currentValue, prevValue) => {
+            //     console.log(currentValue, prevValue);
+            // })
+
+            return {name, nameObj}
+        },
+
+
+        template:
+                `
+                  <div>{{ message }}根组件</div>
+                  <div>{{ name }}</div>
+
+                  <div>
+                  <div>
+                    Name:<input v-model="name"/>
+                  </div>
+                  <div>
+                    Name is {{ name }}
+                  </div>
+                  </div>
+
+                  <div>
+                  <div>
+                    Name:<input v-model="nameObj.name2"/>
+                  </div>
+                  <div>
+                    Name is {{ nameObj.name2 }}
+                  </div>
+                  </div>
+                `
+    });
+
+
+    // vm 代表的就是 vue 应用的根组件，数据视图链接层
+    const vm = app.mount('#root');
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
